@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Set the container name from the first argument
+DEFAULT_NAME="Coding"
+
+# Set host paths for volume mapping
+HOST_WORKDIR="$PWD"  # This maps the current working directory of the host
+HOST_BASH_HISTORY="$HOME/.bash_history"  # Maps the user's bash history
+
+# Run the Docker container with volume mappings
+function dkrun(){
+	CONTAINER_NAME="${1:-$DEFAULT_NAME}"
+	docker run -dit \
+  		--name "$CONTAINER_NAME" \
+		-v /etc/passwd:/etc/passwd:ro \
+  		-v /etc/group:/etc/group:ro \
+  		-v /home/${whomai}:/home/${whomai} \
+		--user $(id -u):$(id -g) \
+  		-v "${HOST_WORKDIR}:/workspace" \
+  		-v "${HOST_BASH_HISTORY}:/root/.bash_history" \
+ 		dss-dev
+}
+
+function dksh(){
+	ID=$(docker ps -n 1 -q)
+	CONTAINER_ID="${1:-${ID}}"
+	docker exec -it ${CONTAINER_ID} /bin/bash
+}
