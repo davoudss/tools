@@ -7,16 +7,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update the package list and install necessary tools and libraries
 RUN apt-get update && \
     apt-get install -y \
-    clang \
-    git \
-    vi \
-    vim \
     build-essential \
+    clang \
     cmake \
+    cmake-format \
+    gdb \
+    git \
+    gnuplot \
     python3 \
     python3-dev \
     python3-pip \
-    gnuplot \
+    sudo \
+    vim \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
